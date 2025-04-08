@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import AudioToolbox
 
 struct ContentView: View {
     @State private var timeRemaining = 600 //set initial timer duration
@@ -45,7 +46,7 @@ struct ContentView: View {
             if timeRemaining > 0 {
                 timeRemaining -= 1
             }else {
-                stopTimer()
+                vibrateEnd()
             }
         }
     }
@@ -62,28 +63,11 @@ struct ContentView: View {
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+    func vibrateEnd(){
+        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stopTimer()
+    }
     
-    /*    private func addItem() {
-     withAnimation {
-     let newItem = Item(timestamp: Date())
-     modelContext.insert(newItem)
-     }
-     }
-     
-     private func deleteItems(offsets: IndexSet) {
-     withAnimation {
-     for index in offsets {
-     modelContext.delete(items[index])
-     }
-     }
-     }
-     }
-     
-     
-     #Preview {
-     ContentView()
-     .modelContainer(for: Item.self, inMemory: true)
-     }*/
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
