@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import AudioToolbox
+let dateformatter = DateFormatter()
 
 struct ContentView: View {
     @State private var timeRemaining = 600 //set initial timer duration
@@ -42,11 +43,19 @@ struct ContentView: View {
     }
     func startTimer(){
         timerRunning = true
+        let startTime = Date()
+        //let startTimeString = dateformatter.string(from: startTime)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
             }else {
                 vibrateEnd()
+                let endTime = Date()
+                //let endTimeString = dateformatter.string(from: startTime)
+                let duration = timeFormatted(Int(endTime.timeIntervalSince(startTime)))
+                /*add in data saving here for;
+                 startTimeString endTimeString and duration?*/
+                print(duration)
             }
         }
     }
