@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import AudioToolbox
+import AVFoundation
 let dateformatter = DateFormatter()
 
 struct ContentView: View {
@@ -16,6 +17,8 @@ struct ContentView: View {
     @State private var timer: Timer?
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    //var audioPlayer: AVAudioPlayer?
+    @StateObject var audioManager = AudioManager()
     
     var body: some View {
         VStack{
@@ -45,6 +48,7 @@ struct ContentView: View {
         timerRunning = true
         let startTime = Date()
         //let startTimeString = dateformatter.string(from: startTime)
+        audioManager.playSilentAudio()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
@@ -61,6 +65,7 @@ struct ContentView: View {
     }
     func stopTimer() {
         timerRunning = false
+        audioManager.stopSilentAudio()
         timer?.invalidate()
     }
     func resetTimer(){
@@ -76,6 +81,25 @@ struct ContentView: View {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         stopTimer()
     }
+    /*func playSilentAudio() {
+        guard let path = Bundle.main.path(forResource: "silence", ofType: "mp3") else {
+            print("Silent audio file not found")
+            return
+        }
+
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.numberOfLoops = -1  // Infinite loop
+            audioPlayer?.play()
+        } catch {
+            print("Error playing silent audio: \(error.localizedDescription)")
+        }
+    }
+    func stopSilentAudio() {
+        audioPlayer?.stop()
+    }*/
     
 }
 struct ContentView_Previews: PreviewProvider {
