@@ -26,6 +26,18 @@ class AudioManager: ObservableObject {
         }
     }
     
+    func playBell() {
+        guard let path = Bundle.main.path(forResource: "deep-meditation-bell-hit", ofType: "mp3") else{
+            print("Bell audio file not found")
+            return
+        }
+        let url = URL(fileURLWithPath: path)
+        do{audioPlayer = try AVAudioPlayer(contentsOf: url)
+        }catch {
+            print("Error playing bell audio file: \(error.localizedDescription)")
+        }
+    }
+    
     func stopSilentAudio() {
         audioPlayer?.stop()
     }

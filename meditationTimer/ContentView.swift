@@ -54,6 +54,7 @@ struct ContentView: View {
                 timeRemaining -= 1
             }else {
                 vibrateEnd()
+                audioManager.playBell()
                 let endTime = Date()
                 //let endTimeString = dateformatter.string(from: startTime)
                 let duration = timeFormatted(Int(endTime.timeIntervalSince(startTime)))
