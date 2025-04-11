@@ -7,44 +7,45 @@
 
 import SwiftUI
 import SwiftData
-import AudioToolbox
+/*import AudioToolbox
 import AVFoundation
-let dateformatter = DateFormatter()
+let dateformatter = DateFormatter()*/
 
 struct ContentView: View {
-    @State private var timeRemaining = 600 //set initial timer duration
+    /*@State private var timeRemaining = 600 //set initial timer duration
     @State private var timerRunning = false
-    @State private var timer: Timer?
+    @State private var timer: Timer?*/
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     //var audioPlayer: AVAudioPlayer?
     @StateObject var audioManager = AudioManager()
+    @StateObject var timeDate = TimerCLass()
     
     var body: some View {
         VStack{
             Text("Meditation Timer")
-            Text(timeFormatted(timeRemaining))
+            Text(timeDate.timeFormatted(timeDate.timeRemaining))
                 .font(.largeTitle)
                 .padding()
             HStack {
-                Button(timerRunning ? "Pause" : "Start") {
-                    if timerRunning {
-                        stopTimer()
+                Button(timeDate.timerRunning ? "Pause" : "Start") {
+                    if timeDate.timerRunning {
+                        timeDate.stopTimer()
                     } else{
-                        startTimer()
+                        timeDate.startTimer()
                     }
                 }
                 .padding()
                 
                 Button("Reset") {
-                    resetTimer()
+                    timeDate.resetTimer()
                 }
                 .padding()
                 
             }
         }
     }
-    func startTimer(){
+    /*func startTimer(){
         timerRunning = true
         let startTime = Date()
         //let startTimeString = dateformatter.string(from: startTime)
@@ -63,25 +64,8 @@ struct ContentView: View {
                 print(duration)
             }
         }
-    }
-    func stopTimer() {
-        timerRunning = false
-        audioManager.stopSilentAudio()
-        timer?.invalidate()
-    }
-    func resetTimer(){
-        stopTimer()
-        timeRemaining = 600 //reset to initial value
-    }
-    func timeFormatted(_ totalSeconds: Int) -> String {
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    func vibrateEnd(){
-        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        stopTimer()
-    }
+    }*/
+    
     /*func playSilentAudio() {
         guard let path = Bundle.main.path(forResource: "silence", ofType: "mp3") else {
             print("Silent audio file not found")
